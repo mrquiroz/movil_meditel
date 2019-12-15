@@ -5,6 +5,7 @@ import {Text, ListItem, Divider,Avatar, Button} from 'react-native-elements';
 import { GiftedChat } from 'react-native-gifted-chat';
 import {ClassicHeader,ModernHeader}  from '@freakycoder/react-native-header-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AwesomeAlert from 'react-native-awesome-alerts';
 // import { ScrollView } from 'react-native-gesture-handler';
 // import TouchableScale from 'react-native-touchable-scale';
 // import Icon from 'react-native-vector-icons/FontAwesome';
@@ -43,6 +44,7 @@ export default class Chat extends Component {
       search: '',
       email:'',
       token:'',
+      showAlert: false,
       messages: [],
   };
   
@@ -51,6 +53,11 @@ export default class Chat extends Component {
       this.props.navigation.addListener('didFocus', () => this.componentDidFocus()),
    ];
   }
+  hideAlert = () => {
+    this.setState({
+      showAlert: false
+    });
+  };
 
   componentDidFocus() {
   this.props.screenProps.socket.setHandler(this.messageHandler)
@@ -77,6 +84,11 @@ export default class Chat extends Component {
       ],
     })
   }
+  showAlert = () => {
+  this.setState({
+    showAlert: true
+  });
+};
   
 
   requestVideollamada() {
@@ -112,7 +124,10 @@ export default class Chat extends Component {
     const {type, data} = message;
     switch (type) {
       case 'chat:videollamada_request':
-        this.props.navigation.navigate("videollamada")
+          this.setState({
+            showAlert: true
+          });
+        
         // Si acepta se debe ejecutar this.props.navigation.navigate("videollamada");
       break;
       case 'chat:videollamada_refuse':
@@ -126,7 +141,6 @@ export default class Chat extends Component {
         console.log("Default case")
         break
     }
-    this.props.navigation.navigate("videollamada");
   }
   
     render() {
@@ -151,6 +165,25 @@ export default class Chat extends Component {
               _id: 1,
             }}
           />
+          <AwesomeAlert
+                show={this.state.showAlert}
+                showProgress={false}
+                title="Tu reserva"
+                message= {"Fecha: " + global.selected_date +"\n" + "Hora: " + global.hora}
+                closeOnTouchOutside={true}
+                closeOnHardwareBackPress={false}
+                showCancelButton={true}
+                showConfirmButton={true}
+                cancelText="Cencelar"
+                confirmText="Agendar"
+                confirmButtonColor="orange"
+                onCancelPressed={() => {
+                  this.hideAlert();
+                }}
+                onConfirmPressed={() => {
+                  this.props.navigation.navigate("videollamada");
+                }}
+              />
             </View>
         );
     }

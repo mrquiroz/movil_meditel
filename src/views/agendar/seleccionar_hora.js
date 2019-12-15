@@ -82,7 +82,7 @@ export default class Seleccionar extends Component {
         'Hora exitosamente agendada',
         'Puedes revisar tu asesoria en la seccion de asesorias',
         [
-          {text: 'OK', onPress: () => this.props.navigation.navigate('agendar')},
+          {text: 'OK', onPress: () => this.props.navigation.navigate('inicio')},
 
           {text: ' Ver Asesorias', onPress: () => this.props.navigation.navigate('asesoria')},
         ],

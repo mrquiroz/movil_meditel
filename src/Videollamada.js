@@ -16,6 +16,7 @@ import {
   rtcView
   // text
 } from './styles';
+import { Button } from 'react-native-elements';
 
 import VideoCall from './utils/videocall';
 
@@ -161,6 +162,16 @@ class Videollamada extends Component {
         {!(this.state.connecting || this.state.waiting) && (
           <RTCView streamURL={this.state.remoteStreamUrl} style={rtcView.fullScreen}/>
         )}
+        <Button
+        raised
+        onPress={() => this.props.navigation.navigate("chat")}
+        icon={
+          <Icon
+            name="close"
+            size={15}
+            color="red"
+          />
+        } />
       </View>
     );
   }
