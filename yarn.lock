@@ -675,6 +675,16 @@
     "@types/hoist-non-react-statics" "^3.3.1"
     hoist-non-react-statics "^3.3.0"
 
+"@freakycoder/react-native-header-view@^0.4.13":
+  version "0.4.13"
+  resolved "https://registry.yarnpkg.com/@freakycoder/react-native-header-view/-/react-native-header-view-0.4.13.tgz#05e9d98608fd68eecf3aaf811453e8236b96ce6c"
+  integrity sha512-SGx5GWHwWcsDgHuu29s00E9zB6Chps8FJxS5MiRayd9YPHflmD6VK4QX7oXuR7bUqJyyySpdPcO4DUkTpr/aUg==
+
+"@freakycoder/react-native-helpers@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@freakycoder/react-native-helpers/-/react-native-helpers-0.1.0.tgz#71c7a38cb3b96d8493f9a187c462b7f93f20bbb4"
+  integrity sha512-8ZPsk2gw6oUbQyduRoyz6VUCmlR6pVTrunrq3eDOxNTnK7UStpZlFRGBg6NTJDo5SFK+/kz8j+ikeo09vDBdeA==
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
@@ -5457,6 +5467,11 @@ react-native-communications@2.2.1:
   resolved "https://registry.yarnpkg.com/react-native-communications/-/react-native-communications-2.2.1.tgz#7883b56b20a002eeb790c113f8616ea8692ca795"
   integrity sha1-eIO1ayCgAu63kMET+GFuqGksp5U=
 
+react-native-dynamic-vector-icons@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-dynamic-vector-icons/-/react-native-dynamic-vector-icons-0.2.1.tgz#6859d0aac7e00f831a30de612c905bd4d08da555"
+  integrity sha512-C5BZ3rxkRAkzCOIwZSlZReNPfco8smWHicnKc5Z60nr7ibyaV/6EugDmf/eUuHAl4qdsYnRdSm7q1Ag627ZARQ==
+
 react-native-elements@^1.2.7:
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-1.2.7.tgz#1eca2db715c41722aeb67aea62bd2a4621adb134"
@@ -5513,9 +5528,9 @@ react-native-maps@~0.25.0:
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.25.0.tgz#81bc51eb50e33811a9e1c345cc48869413ead67d"
   integrity sha512-PFJuW1pt+HnnnN0m0OGk29RSvICFVkK/DScX6cUk0SuCSN2DAHx0y6y57lZyYXcYqU4J4usNpfxgp/ccjASDiw==
 
-"react-native-parsed-text@git+https://github.com/EvanBacon/react-native-parsed-text.git":
+"react-native-parsed-text@https://github.com/EvanBacon/react-native-parsed-text.git":
   version "0.0.22"
-  resolved "git+https://github.com/EvanBacon/react-native-parsed-text.git#f55c4713c62961f13a2eec99cbc1ec619615ee72"
+  resolved "https://github.com/EvanBacon/react-native-parsed-text.git#f55c4713c62961f13a2eec99cbc1ec619615ee72"
   dependencies:
     prop-types "^15.5.10"
 

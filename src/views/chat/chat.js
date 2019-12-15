@@ -1,8 +1,10 @@
 
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, View ,Image, ImageBackground, TouchableHighlight, TouchableOpacity} from 'react-native';
-import {Text, ListItem, Divider,Avatar, Button} from 'react-native-elements'
-import { GiftedChat } from 'react-native-gifted-chat'
+import { FlatList, StyleSheet, View ,Image, ImageBackground, TouchableHighlight, TouchableOpacity, Alert} from 'react-native';
+import {Text, ListItem, Divider,Avatar, Button} from 'react-native-elements';
+import { GiftedChat } from 'react-native-gifted-chat';
+import {ClassicHeader,ModernHeader}  from '@freakycoder/react-native-header-view';
+import Icon from 'react-native-vector-icons/FontAwesome';
 // import { ScrollView } from 'react-native-gesture-handler';
 // import TouchableScale from 'react-native-touchable-scale';
 // import Icon from 'react-native-vector-icons/FontAwesome';
@@ -21,6 +23,16 @@ const agendada = [
 ]
 
 export default class Chat extends Component {
+  static navigationOptions = {
+    title: 'Home',
+    headerStyle: {
+      backgroundColor: '#f4511e',
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+  };
 
   constructor(props) {
     super(props);
@@ -37,11 +49,11 @@ export default class Chat extends Component {
   componentDidMount(){
     this.subs = [
       this.props.navigation.addListener('didFocus', () => this.componentDidFocus()),
-    ];
+   ];
   }
 
   componentDidFocus() {
-    this.props.screenProps.socket.setHandler(this.messageHandler)
+  this.props.screenProps.socket.setHandler(this.messageHandler)
   }
 
   componentDidUpdate(){
@@ -49,7 +61,7 @@ export default class Chat extends Component {
   }
 
   componentWillUnmount() {
-    this.subs.forEach(sub => sub.remove());
+  this.subs.forEach(sub => sub.remove());
     this.setState({
       messages: [
         {
@@ -67,7 +79,7 @@ export default class Chat extends Component {
   }
   
 
-  /* requestVideollamada() {
+  requestVideollamada() {
     global.room.emit('message', {
         type: 'chat:videollamada_request',
         data: {
@@ -75,7 +87,7 @@ export default class Chat extends Component {
       }
     })
     this.props.navigation.navigate("videollamada");
-  } */
+  }
 
   //TODO: Se debe ejecutar cuando has enviado un nuevo mensaje
   chatUpdate() {
@@ -121,6 +133,17 @@ export default class Chat extends Component {
         const { search } = this.state;
         return (
             <View style={styles.container}>
+
+          <ModernHeader
+            text="Chat"
+            rightIconType="Ionicons"
+            
+            backgroundColor="#fdfdfd"
+            //rightIconName="ios-settings"
+            //rightIconColor={colors.light.primary}
+            rightIconComponent={ <Icon name="video-camera" size={25} color="#3AB8DA" />}
+            rightIconOnPress={() => this.requestVideollamada()}
+          />
                 <GiftedChat
             messages={this.state.messages}
             onSend={messages => this.onSend(messages)}
@@ -128,29 +151,23 @@ export default class Chat extends Component {
               _id: 1,
             }}
           />
-            <Text>Esto es un chat</Text> 
-            <Button
-              onPress={() => this.requestVideollamada()}
-              title="Solicitar Video llamada"
-              color="gray"
-              />
             </View>
         );
     }
 }
-// const subscribeToRoom = (sc, room_id, token) => {
-//   if ( !sc.hasConnection ) {
-//       sc.connect(token);
-//   }
+const subscribeToRoom = (sc, room_id, token) => {
+   if ( !sc.hasConnection ) {
+       sc.connect(token);
+   }
 
-//   let room = sc.ws.getSubscription(room_id);
-//   sc.topic = room_id;
-//   if (!room) {
-//       return sc.subscribe(room_id);    
-//   } else {
-//       return room;
-//   }
-// }
+   let room = sc.ws.getSubscription(room_id);
+   sc.topic = room_id;
+   if (!room) {
+       return sc.subscribe(room_id);    
+   } else {
+       return room;
+   }
+ }
 
 const styles = StyleSheet.create({
   container: {

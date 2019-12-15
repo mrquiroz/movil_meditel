@@ -165,7 +165,7 @@ const RootStack = createStackNavigator(
     chat:{
       screen: Chat,
       navigationOptions:{
-        header: null,
+        title: 'hsas'
       }
     }
   },
