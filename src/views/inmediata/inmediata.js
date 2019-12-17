@@ -42,9 +42,7 @@ export default class Inmediata extends Component {
         alert('Datos Agendada');
     }
     Disponibles = () => {
-      console.log('rebuscaaaa')
         if (this.state.buscados == ''){
-          console.log('rebusca')
             fetch('https://meditel-testing.herokuapp.com/api/doctor/disponibles', {
                 method: 'GET',
                 headers: {
