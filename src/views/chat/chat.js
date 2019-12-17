@@ -6,6 +6,8 @@ import { GiftedChat } from 'react-native-gifted-chat';
 import {ClassicHeader,ModernHeader}  from '@freakycoder/react-native-header-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import moment from 'moment';
+//import { globalAgent } from 'http';
 // import { ScrollView } from 'react-native-gesture-handler';
 // import TouchableScale from 'react-native-touchable-scale';
 // import Icon from 'react-native-vector-icons/FontAwesome';
@@ -38,6 +40,7 @@ export default class Chat extends Component {
   constructor(props) {
     super(props);
     this.messageHandler = this.messageHandler.bind(this);
+    global.time_stamp = '';
   }
 
   state = {
@@ -102,19 +105,34 @@ export default class Chat extends Component {
   }
 
   //TODO: Se debe ejecutar cuando has enviado un nuevo mensaje
-  chatUpdate() {
-    // 1. Actualizar la vista de los mensajes a través de la agregación de nuevo elemento a array de mensajes
-    // 2. Se ejecuta endpoint que postea el nuevo mensaje
-    // 3. Si endpoint es exitoso se notifica a contraparte con chat:update vía WS.
-    global.room.emit('message', {
-        type: 'chat:update',
-        data: {
-          to_socket:global.socket_id
-      }
-    })
-  }
+ 
+
 
   onSend(messages = []) {
+    Registro_mensaje = () => {
+        fetch('https://meditel-testing.herokuapp.com/api/message/post', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + global.token, 
+          },
+          body: JSON.stringify({
+              "id_asesoria": global.id_asesoria,
+              "type": "texto",
+              "content": messages
+          })
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson)
+        global.time_stamp = moment();
+          })
+          .catch((error) => {
+            console.log(error)
+      });
+    };
+    this.Registro_mensaje()
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages),
     }))
@@ -126,7 +144,9 @@ export default class Chat extends Component {
       case 'chat:videollamada_request':
           this.setState({
             showAlert: true
-          });
+          })
+      case 'chat:update':
+          this.chatUpdate();
         
         // Si acepta se debe ejecutar this.props.navigation.navigate("videollamada");
       break;

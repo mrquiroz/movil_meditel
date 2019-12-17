@@ -57,6 +57,7 @@ export default class AsesoriasScreen extends Component {
 
     componentDidFocus() {
         this.props.screenProps.socket.setHandler(this.messageHandler)
+        Agendados()
     }
 
     requestAsesoria(id) {
@@ -95,7 +96,12 @@ export default class AsesoriasScreen extends Component {
                 <ScrollView>
                     <Text style={styles.title}>
                         Asesorías Médicas
-                    </Text> 
+                    </Text>  
+                    <Text style={{
+                    color: 'gray',
+                    fontSize: 16,
+                    paddingLeft: 10,
+                  }}>presione la foto del doctor para ver el detalle de la asesoria</Text>
                     <View style={styles.section}>
                         <Text style={styles.subtitle}>
                             Asesoria agendada
@@ -118,7 +124,10 @@ export default class AsesoriasScreen extends Component {
                                                           'http://www.doctorlopezcapape.com/site/imgs/doctor-david-lopez-capape-retrato.png',
                                                       }}
                                                   onPress={() => this.props.navigation.navigate('medico_inmediato', {
-                                                              id_medico: l.id_doctor
+                                                              id_medico: l.id_doctor,
+                                                              motivo:l.motivo,
+                                                              fecha:l.fecha,
+                                                              id_asesoria:l.id_asesoria
                                                             })}
                                                   activeOpacity={0.7}
                                                 />}

@@ -67,7 +67,8 @@ export default class Seleccionar extends Component {
           },
           body: JSON.stringify({
               "fecha": global.selected_date +' '+global.hora,
-              "id_doctor": this.state.id_medico
+              "id_doctor": this.state.id_medico,
+              "motivo":this.state.mensaje
           })
       })
       .then((response) => response.json())
@@ -82,7 +83,7 @@ export default class Seleccionar extends Component {
         'Hora exitosamente agendada',
         'Puedes revisar tu asesoria en la seccion de asesorias',
         [
-          {text: 'OK', onPress: () => this.props.navigation.navigate('inicio')},
+          {text: 'OK', onPress: () => this.props.navigation.navigate('index')},
 
           {text: ' Ver Asesorias', onPress: () => this.props.navigation.navigate('asesoria')},
         ],
@@ -270,9 +271,6 @@ export default class Seleccionar extends Component {
       //value={value}
       />
 
-
-
-
         </View>
           <View style={{flex:1,
                           flexDirection: 'row',
@@ -281,7 +279,7 @@ export default class Seleccionar extends Component {
             <Button
                 title="Agendar asesoria"
                 type="outline"
-                onPress={() => this.showAlert()}
+                onPress={() => {this.showAlert();}}
                  />
             </View>
             <View style={styles.loginContainer}>
@@ -354,7 +352,7 @@ export default class Seleccionar extends Component {
                 show={this.state.showAlert}
                 showProgress={false}
                 title="Tu reserva"
-                message= {"Fecha: " + global.selected_date +"\n" + "Hora: " + global.hora}
+                message= {"Fecha: " + global.selected_date +"\n" + "Hora: " + global.hora + "\n" +"Motivo: "+this.state.mensaje}
                 closeOnTouchOutside={true}
                 closeOnHardwareBackPress={false}
                 showCancelButton={true}
