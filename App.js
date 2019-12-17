@@ -25,8 +25,8 @@ import Perfil_medico from './src/views/perfil_medico/perfil_medico.js'
 
 // Utils MediTel
 import SocketConnection from './src/utils/socket';
-
 const ws = new SocketConnection();
+
 
 const AsesoriaStack = createStackNavigator(
   {
@@ -177,9 +177,6 @@ export default class App extends Component {
 
   async componentDidMount() {
     this.checkPermission();
-    firebase.messaging().onMessage(async (remoteMessage) => {
-      console.log('FCM Message Data:', remoteMessage.data);
-    });
   }
   
   // Funciones de firebase desencadenadas por this.checkPermission()
