@@ -57,6 +57,7 @@ export default class AsesoriasScreen extends Component {
 
     componentDidFocus() {
         this.props.screenProps.socket.setHandler(this.messageHandler)
+        Agendados()
     }
 
     requestAsesoria(id) {
@@ -118,7 +119,10 @@ export default class AsesoriasScreen extends Component {
                                                           'http://www.doctorlopezcapape.com/site/imgs/doctor-david-lopez-capape-retrato.png',
                                                       }}
                                                   onPress={() => this.props.navigation.navigate('medico_inmediato', {
-                                                              id_medico: l.id_doctor
+                                                              id_medico: l.id_doctor,
+                                                              motivo:l.motivo,
+                                                              fecha:l.fecha,
+                                                              id_asesoria:l.id_asesoria
                                                             })}
                                                   activeOpacity={0.7}
                                                 />}

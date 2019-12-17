@@ -8,7 +8,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "nodeify1": "rn-nodeify --intall stream --hack --yarn",
+    "nodeify1": "rn-nodeify --intall stream --yarn",
     "nodeify2": "rn-nodeify --intall events --hack --yarn",
     "nodeify3": "rn-nodeify --intall util --hack --yarn"
   },
