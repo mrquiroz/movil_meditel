@@ -126,7 +126,7 @@ const RootStack = createStackNavigator(
     inmediata:{
       screen: Inmediata,
       navigationOptions:{
-        title: 'Atención inmediata',
+        header: null,
       }
     },
     agendar:{

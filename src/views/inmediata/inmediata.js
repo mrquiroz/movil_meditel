@@ -5,6 +5,7 @@ import {Text, ListItem, Divider,Avatar} from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
 // import TouchableScale from 'react-native-touchable-scale';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {ClassicHeader,ModernHeader}  from '@freakycoder/react-native-header-view';
 
 
 //TODO: Cuando se haga el fetch desde el back se debe rescatar la asesoria_id del respectivo médico
@@ -29,7 +30,6 @@ export default class Inmediata extends Component {
   }
     state = {
         search: '',
-        email:'',
         token:'',
         data:[],
         buscados:'',
@@ -42,7 +42,9 @@ export default class Inmediata extends Component {
         alert('Datos Agendada');
     }
     Disponibles = () => {
+      console.log('rebuscaaaa')
         if (this.state.buscados == ''){
+          console.log('rebusca')
             fetch('https://meditel-testing.herokuapp.com/api/doctor/disponibles', {
                 method: 'GET',
                 headers: {
@@ -62,8 +64,7 @@ export default class Inmediata extends Component {
         }
       };
     componentDidMount(){
-        this.setState({email:(this.props.navigation.state.params || {}).email})
-        this.setState({token:(this.props.navigation.state.params || {}).token})
+        this.setState({token:global.token})
         this.subs = [
           this.props.navigation.addListener('didFocus', () => this.componentDidFocus()),
         ];
@@ -114,6 +115,17 @@ export default class Inmediata extends Component {
         const myIcon = <Icon name="star" size={30} color="#900" />;
         return (
             <View style={styles.container}>
+            <ModernHeader
+            text="Atencion Inmediata"
+            textStyle ={{fontSize:20}}
+            rightIconType="Ionicons"
+            
+            backgroundColor="#fdfdfd"
+            //rightIconName="ios-settings"
+            //rightIconColor={colors.light.primary}
+            rightIconComponent={ <Icon name="rotate-right" size={25} color="#3AB8DA" />}
+            rightIconOnPress={() => this.setState({buscados:''})}
+          />
                 <ScrollView>
                     <Text style={styles.info}>
                     Selecciona a uno de los medicos disponibles para tu asesoria inmediata
