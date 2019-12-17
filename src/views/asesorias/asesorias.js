@@ -96,7 +96,12 @@ export default class AsesoriasScreen extends Component {
                 <ScrollView>
                     <Text style={styles.title}>
                         Asesorías Médicas
-                    </Text> 
+                    </Text>  
+                    <Text style={{
+                    color: 'gray',
+                    fontSize: 16,
+                    paddingLeft: 10,
+                  }}>presione la foto del doctor para ver el detalle de la asesoria</Text>
                     <View style={styles.section}>
                         <Text style={styles.subtitle}>
                             Asesoria agendada
