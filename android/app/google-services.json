@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "42073245868",
+    "firebase_url": "https://meditel-prototype-v1.firebaseio.com",
+    "project_id": "meditel-prototype-v1",
+    "storage_bucket": "meditel-prototype-v1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:42073245868:android:5c3a1c5c4d147c5b66b709",
+        "android_client_info": {
+          "package_name": "com.movil_final"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "42073245868-tfpqlsv4216i9hr7k3vttlvgitdgbdc2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWEk9UrF9Io_l7t0OLE15vgBjmK6cOVRA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "42073245868-tfpqlsv4216i9hr7k3vttlvgitdgbdc2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

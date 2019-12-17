@@ -1,11 +1,11 @@
 // Librerías react-native
 import React, { Component } from 'react';
-// import firebase from 'react-native-firebase';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-// import { createStackNavigator, createAppContainer, createBottomTabNavigator } from 'react-navigation';
+import firebase from '@react-native-firebase/app';
+import '@react-native-firebase/messaging';
 
 // Componentes de la aplicación
 import Signup from './src/views/Signup.js';
@@ -27,15 +27,6 @@ import Perfil_medico from './src/views/perfil_medico/perfil_medico.js'
 import SocketConnection from './src/utils/socket';
 
 const ws = new SocketConnection();
-
-// Desde v4 de react-navigation createStackNavigator se importa desde react-navigation-stack (requiere instalación)
-
-// import AsesoriasScreen from './src/views/asesorias/asesorias.js';
-
-
-// import SocketConnection from './src/utils/socket';
-
-// const ws = new SocketConnection();
 
 const AsesoriaStack = createStackNavigator(
   {
@@ -186,6 +177,36 @@ export default class App extends Component {
 
   async componentDidMount() {
     this.checkPermission();
+    firebase.messaging().onMessage(async (remoteMessage) => {
+      console.log('FCM Message Data:', remoteMessage.data);
+    });
+  }
+  
+  // Funciones de firebase desencadenadas por this.checkPermission()
+  async checkPermission() {
+    const enabled = await firebase.messaging().hasPermission();
+    if (enabled) {
+        this.getToken();
+    } else {
+        this.requestPermission();
+    }
+  }
+
+  async getToken() {
+    fcmToken = await firebase.messaging().getToken();
+    global.movil = fcmToken
+    console.log("El token de firebase es ", fcmToken);
+  }
+
+  async requestPermission() {
+    try {
+        await firebase.messaging().requestPermission();
+        // User has authorised
+        this.getToken();
+    } catch (error) {
+        // User has rejected permissions
+        console.log('permission rejected');
+    }
   }
 
   render() {
