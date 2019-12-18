@@ -84,6 +84,7 @@ class Videollamada extends Component {
         break;
       case 'videollamada:finished':
         Alert.alert('El medico corto')
+        this.props.navigation.navigate("chat")
         // Se debe cerrar esta vista y volver al chat
         break;
       default:
@@ -164,12 +165,6 @@ class Videollamada extends Component {
         {!(this.state.connecting || this.state.waiting) && (
           <RTCView streamURL={this.state.remoteStreamUrl} style={rtcView.fullScreen}/>
         )}
-        <Button
-          rounded
-          icon={ <Icon name="remove" size={40} color="white" />}
-          buttonStyle={styles.myButton}
-          style={{borderRadius: 50}}
-          onPress={()=>this.props.navigation.navigate('chat')}/>
       </View>
     );
   }

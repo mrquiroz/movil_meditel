@@ -95,28 +95,27 @@ export default class Chat extends Component {
 
   map_mensajes(mensaje = []){
     let iterador;
+    var sms;
     iterador = mensaje
-    iter = new Array()
+    console.log('nose que pasa')
     for(let i = 0; i < iterador.length; i++){
       sms = iterador[i]
-      iter.append(sms)
       console.log('sms')
       console.log(sms)
       this.setState({mensaje:[{"_id": sms.created_at, "createdAt": sms.created_at, "text": sms.content, "user": {"_id": 2}}]})
       console.log(this.state.mensaje)
+      global.time_stamp =sms.created_at
       this.setState(previousState => ({
         messages: GiftedChat.append(previousState.messages, {
           _id: sms.created_at,
           text: sms.content,
           createdAt: new Date(),
           user: {
-            name: "Catalina mena",
-            _id: 2
+            _id: "2"
           },
         }),
       }));
     }
-  
   }
   
 
@@ -248,9 +247,16 @@ export default class Chat extends Component {
             //rightIconName="ios-settings"
             //rightIconColor={colors.light.primary}
             rightIconComponent={ <Icon name="video-camera" size={25} color="#3AB8DA" />}
-            rightIconOnPress={() => this.requestVideollamada()}
+            rightIconOnPress={() => global.room.emit('message', {
+        type: 'chat:videollamada_refuse',
+        data: {
+          to_socket:global.socket_id
+      }
+    })}
           />
                 <GiftedChat
+                placeholder="Envia un mensaje a tu medico"
+
             messages={this.state.messages}
             onSend={messages => this.onSend(messages)}
             user={{
@@ -261,14 +267,14 @@ export default class Chat extends Component {
           <AwesomeAlert
                 show={this.state.showAlert}
                 showProgress={false}
-                title="Tu reserva"
-                message= {"Fecha: " + global.selected_date +"\n" + "Hora: " + global.hora}
+                title="Video llamada"
+                message= {"Desea aceptar la video llamada?"}
                 closeOnTouchOutside={true}
                 closeOnHardwareBackPress={false}
                 showCancelButton={true}
                 showConfirmButton={true}
                 cancelText="Cencelar"
-                confirmText="Agendar"
+                confirmText="Aceptar"
                 confirmButtonColor="orange"
                 onCancelPressed={() => {
                   this.hideAlert();
