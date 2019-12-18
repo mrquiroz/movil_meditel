@@ -14,6 +14,7 @@ import PushNotification from "react-native-push-notification";
 global.agendada = {modal:false}
 console.disableYellowBox=true;
 messaging().setBackgroundMessageHandler( async (payload) => {
+    console.log('payload')
     console.log(payload)
     
     switch (payload.data.type) {

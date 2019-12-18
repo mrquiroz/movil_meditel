@@ -13,6 +13,7 @@ import moment from 'moment';
 export default class InicioScreen extends Component {
   constructor(props) {
     super(props);
+    this.messageHandler = this.messageHandler.bind(this);
     global.nombre = '';
     global.apellido = '';
     global.token = '';
@@ -87,10 +88,37 @@ export default class InicioScreen extends Component {
     }
   };
 
+  Empezar_asesoria = () =>{
+    this.props.screenProps.socket.connect(global.token)
+    let room = this.props.screenProps.socket.subscribe('asesoria:'+global.agendada.id_doctor);
+    
+    room.emit('message', {
+      type: 'asesoria:paciente_ready',
+      data: {
+        to_socket:global.id_socket,
+        id_asesoria:global.agendada.id_asesoria
+    }
+  }) ;
+  }
+  messageHandler ( message ) {
+    const {type, data} = message;
+    switch (type) {
+        case 'asesoria:accept':
+          this.props.navigation.navigate('chat')
+        case 'asesoria:refuse':
+            Alert.alert('Tu asesoria fue rechazada')
+        default:
+          //console.log("Default case")
+        break;
+      }
+}
+
+
   componentDidMount(){
     this.setState({email:(this.props.navigation.state.params || {}).email})
     this.setState({password:(this.props.navigation.state.params || {}).password})
     this.setState({modalVisible:global.agendada.modal})
+    this.props.screenProps.socket.setHandler(this.messageHandler)
   }
   componentDidUpdate(){
     this.Token()
@@ -158,7 +186,7 @@ export default class InicioScreen extends Component {
                   <Button
                       title="Empezar"
                       type="outline"
-                      onPress={() => this.props.navigation.navigate('chat')}
+                      onPress={() => this.Empezar_asesoria()}
                       />
                   </View>
                   <View style={styles.loginContainer}>

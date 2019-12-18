@@ -48,6 +48,8 @@ export default class Chat extends Component {
       search: '',
       email:'',
       token:'',
+      mensaje:[],
+      datos:[{"content":'',"created_at":'',"role":''}],
       showAlert: false,
       messages: [],
   };
@@ -64,7 +66,8 @@ export default class Chat extends Component {
   };
 
   
-    chatUpdate = () => {
+  chatUpdate() {
+      console.log('chat_update')
         fetch('https://meditel-testing.herokuapp.com/api/message/getlast', {
           method: 'POST',
           headers: {
@@ -80,9 +83,57 @@ export default class Chat extends Component {
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson)
+        console.log('chat_update')
+        this.setState({datos:responseJson})
+        //this.setState({mensaje:[{"_id": responseJson[0].created_at, "createdAt": moment(), "text": responseJson[0].content, "user": {"_id": 2}}]})
+        console.log('jueeee')
+        console.log(this.state.mensaje)
+        this.map_mensajes(responseJson)
         //this.setState({messages:response.data})
       });
     };
+
+  map_mensajes(mensaje = []){
+    let iterador;
+    iterador = mensaje
+    iter = new Array()
+    for(let i = 0; i < iterador.length; i++){
+      sms = iterador[i]
+      iter.append(sms)
+      console.log('sms')
+      console.log(sms)
+      /* this.setState({mensaje:[{"_id": sms.created_at, "createdAt": sms.created_at, "text": sms.content, "user": {"_id": 2}}]})
+      console.log(this.state.mensaje)
+      this.setState(previousState => ({
+        messages: GiftedChat.append(previousState.messages, {
+          _id: sms.created_at,
+          text: sms.content,
+          createdAt: new Date(),
+          user: {
+            _id: 2
+          },
+        }),
+      })); */
+    }
+    for(let i = 0; i < iter.length; i++){
+      sms = iter[i]
+      iter.append(sms)
+      console.log('sms')
+      console.log(sms)
+      //this.setState({mensaje:[{"_id": sms.created_at, "createdAt": sms.created_at, "text": sms.content, "user": {"_id": 2}}]})
+      console.log(this.state.mensaje)
+      this.setState(previousState => ({
+        messages: GiftedChat.append(previousState.messages, {
+          _id: sms.created_at,
+          text: sms.content,
+          createdAt: new Date(),
+          user: {
+            _id: 2
+          },
+        }),
+      }));
+    }
+  }
   
 
   componentDidFocus() {
@@ -92,6 +143,8 @@ export default class Chat extends Component {
   componentDidUpdate(){
 
   }
+
+
 
   componentWillUnmount() {
   this.subs.forEach(sub => sub.remove());
@@ -132,6 +185,9 @@ export default class Chat extends Component {
 
 
   onSend(messages = []) {
+    console.log('mensajes')
+    console.log(messages)
+    console.log(messages[0].text)
         fetch('https://meditel-testing.herokuapp.com/api/message/post', {
           method: 'POST',
           headers: {
@@ -141,14 +197,15 @@ export default class Chat extends Component {
           },
           body: JSON.stringify({
               "id_asesoria": global.id_asesoria,
-              "type": "texto",
-              "content": messages
+              "type": "text",
+              "content": messages[0].text
           })
       })
       .then((response) => response.json())
       .then((responseJson) => {
+        console.log('response chat')
         console.log(responseJson)
-        global.time_stamp = moment();
+        global.time_stamp = responseJson.timestamp;
           })
           .catch((error) => {
             console.log(error)
@@ -172,13 +229,19 @@ export default class Chat extends Component {
           this.setState({
             showAlert: true
           })
-        
         // Si acepta se debe ejecutar this.props.navigation.navigate("videollamada");
       break;
       case 'chat:videollamada_refuse':
         // Mostrar prompt que solicitud de videollamada fue rechazada
       break;
+      case 'chat:videollamada:finished':
+        Alert.alert('Asesoria terminada')
+        this.props.navigation.navigate("index")
+        // Mostrar prompt que solicitud de videollamada fue rechazada
+      break;
       case 'chat:update':
+        console.log('si entro')
+        this.chatUpdate()
         // Evento que indica que contraparte envió nuevo mensaje al chat
         // Se debe ejecutar endpoint de obtención de nuevos mensajes (api/message/getlast)
       break;
@@ -210,6 +273,7 @@ export default class Chat extends Component {
               _id: 1,
             }}
           />
+          {console.log('mesajes'+this.state.messages)}
           <AwesomeAlert
                 show={this.state.showAlert}
                 showProgress={false}
