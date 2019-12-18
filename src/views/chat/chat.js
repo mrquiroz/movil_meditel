@@ -102,7 +102,7 @@ export default class Chat extends Component {
       iter.append(sms)
       console.log('sms')
       console.log(sms)
-      /* this.setState({mensaje:[{"_id": sms.created_at, "createdAt": sms.created_at, "text": sms.content, "user": {"_id": 2}}]})
+      this.setState({mensaje:[{"_id": sms.created_at, "createdAt": sms.created_at, "text": sms.content, "user": {"_id": 2}}]})
       console.log(this.state.mensaje)
       this.setState(previousState => ({
         messages: GiftedChat.append(previousState.messages, {
@@ -110,29 +110,13 @@ export default class Chat extends Component {
           text: sms.content,
           createdAt: new Date(),
           user: {
-            _id: 2
-          },
-        }),
-      })); */
-    }
-    for(let i = 0; i < iter.length; i++){
-      sms = iter[i]
-      iter.append(sms)
-      console.log('sms')
-      console.log(sms)
-      //this.setState({mensaje:[{"_id": sms.created_at, "createdAt": sms.created_at, "text": sms.content, "user": {"_id": 2}}]})
-      console.log(this.state.mensaje)
-      this.setState(previousState => ({
-        messages: GiftedChat.append(previousState.messages, {
-          _id: sms.created_at,
-          text: sms.content,
-          createdAt: new Date(),
-          user: {
+            name: "Catalina mena",
             _id: 2
           },
         }),
       }));
     }
+  
   }
   
 
