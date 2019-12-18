@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, View ,Image, ImageBackground, TouchableHighlight, TouchableOpacity, Alert} from 'react-native';
+import { FlatList, StyleSheet, View ,YellowBox,Image, ImageBackground, TouchableHighlight, TouchableOpacity, Alert} from 'react-native';
 import {Text, ListItem, Divider,Avatar, Button} from 'react-native-elements';
 import { GiftedChat } from 'react-native-gifted-chat';
 import {ClassicHeader,ModernHeader}  from '@freakycoder/react-native-header-view';
@@ -24,8 +24,9 @@ const agendada = [
         asesoria_id: 'someId'
     },
 ]
-
+console.disableYellowBox=true;
 export default class Chat extends Component {
+ 
   static navigationOptions = {
     title: 'Home',
     headerStyle: {
@@ -61,6 +62,28 @@ export default class Chat extends Component {
       showAlert: false
     });
   };
+
+  
+    chatUpdate = () => {
+        fetch('https://meditel-testing.herokuapp.com/api/message/getlast', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + global.token, 
+          },
+          body: JSON.stringify({
+              "id_asesoria": global.id_asesoria,
+              "timestamp": global.time_stamp
+          })
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson)
+        //this.setState({messages:response.data})
+      });
+    };
+  
 
   componentDidFocus() {
   this.props.screenProps.socket.setHandler(this.messageHandler)
@@ -109,7 +132,6 @@ export default class Chat extends Component {
 
 
   onSend(messages = []) {
-    Registro_mensaje = () => {
         fetch('https://meditel-testing.herokuapp.com/api/message/post', {
           method: 'POST',
           headers: {
@@ -131,8 +153,13 @@ export default class Chat extends Component {
           .catch((error) => {
             console.log(error)
       });
-    };
-    this.Registro_mensaje()
+      global.room.emit('message', {
+        type: 'chat:update',
+        data: {
+          to_socket:global.socket_id
+      }
+    })
+   
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages),
     }))
@@ -145,8 +172,6 @@ export default class Chat extends Component {
           this.setState({
             showAlert: true
           })
-      case 'chat:update':
-          this.chatUpdate();
         
         // Si acepta se debe ejecutar this.props.navigation.navigate("videollamada");
       break;

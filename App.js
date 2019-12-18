@@ -27,7 +27,7 @@ import Perfil_medico from './src/views/perfil_medico/perfil_medico.js'
 import SocketConnection from './src/utils/socket';
 const ws = new SocketConnection();
 
-
+console.disableYellowBox=true;
 const AsesoriaStack = createStackNavigator(
   {
     asesoria:{ 
@@ -156,7 +156,7 @@ const RootStack = createStackNavigator(
     chat:{
       screen: Chat,
       navigationOptions:{
-        title: 'hsas'
+        header: null,
       }
     }
   },

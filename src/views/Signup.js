@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, AppRegistry, Image, ImageBackground, TextInput, Button,Alert} from 'react-native';
-
+import { StyleSheet, Text, View,Modal, AppRegistry, Image, ImageBackground, TextInput,Alert} from 'react-native';
+import { ThemeProvider,Button } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 //import { createStackNavigator, createAppContainer } from 'react-navigation';
+
+const theme = {
+  Button: {
+    titleStyle: {
+      color: 'white',
+    },
+  },
+};
 
 export default class Signup extends Component {
 
@@ -57,6 +66,7 @@ export default class Signup extends Component {
         email: '',
         password: '',
         valido:false,
+        modalVisible: false,
       }
     }
     onPressSignIn(){
@@ -67,6 +77,9 @@ export default class Signup extends Component {
     }
     onPressForgotPassword(){
       alert('Recuperar contraseña')
+    }
+    setModalVisible(visible) {
+      this.setState({modalVisible: visible});
     }
 
     login = ()=> {
@@ -85,6 +98,13 @@ export default class Signup extends Component {
         blurRadius={1}
         >  
           <View style={styles.container}>
+
+
+
+
+
+
+          
             <View style={styles.logoContainer}>
               <Image source={logo} style={styles.logo}/>
             </View>
@@ -114,18 +134,23 @@ export default class Signup extends Component {
             </Text>
             <View style = {styles.signIn}>
               <Button
+              rounded
               onPress={this.handlePress.bind(this)}
               title="Iniciar sesión"
-              color="gray"
+              buttonStyle={styles.myButton}
+              style={{borderRadius: 50}}
               />
             </View>
             <View style = {styles.signUp}>
-              <Button
-              onPress={() => this.props.navigation.navigate('registro')}
-              title="Registrarse"
-              color="gray"
-              />
+            <ThemeProvider theme={theme}>
+            <Button
+          type="outline"
+          title="Registrarse"
+          buttonStyle={styles.myButton2}
+          onPress={() => this.props.navigation.navigate('registro')}/>
+              </ThemeProvider>
             </View>
+            
           </View>
          </ImageBackground>
       );
@@ -159,6 +184,10 @@ export default class Signup extends Component {
       width: 289,
       height: 110,
     },
+    button: {
+      margin: 5,
+      borderRadius: 30,
+    },
     background: {
       flex:1,
       width: '100%', 
@@ -179,7 +208,7 @@ export default class Signup extends Component {
       marginLeft: 20,
       marginRight: 20,
       color: 'transparent',
-      borderRadius: 7,
+      borderRadius: 140,
       fontSize: 10,
     },
     signUp: {
@@ -193,6 +222,16 @@ export default class Signup extends Component {
     inputIcon: {
       paddingRight:20,
       paddingLeft:10
+    },
+    myButton:{ 
+      backgroundColor:'#68A7B8',
+      borderRadius:400,
+      borderColor: '#d6d7da',
+      
+    },
+    myButton2:{ 
+      borderRadius:400,
+      borderColor: '#d6d7da',
     },
     forgotPassword: {
       color: '#fff',

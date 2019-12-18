@@ -15,7 +15,7 @@ const agendada = [
         asesoria_id: 'someId'
     },
 ]
-
+console.disableYellowBox=true;
 export default class AsesoriasScreen extends Component {
 
     constructor(props) {
@@ -121,7 +121,7 @@ export default class AsesoriasScreen extends Component {
                                                   size="large"
                                                   source={{
                                                         uri:
-                                                          'http://www.doctorlopezcapape.com/site/imgs/doctor-david-lopez-capape-retrato.png',
+                                                        global.doctor,
                                                       }}
                                                   onPress={() => this.props.navigation.navigate('medico_inmediato', {
                                                               id_medico: l.id_doctor,

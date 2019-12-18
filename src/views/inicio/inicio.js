@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, View ,Image, ImageBackground, TouchableHighlight,TouchableOpacity} from 'react-native';
-import { List, ListItem,Header,SearchBar,Divider,Text } from 'react-native-elements'
+import { FlatList, StyleSheet, View ,Image,Modal,Alert, ImageBackground, TouchableHighlight,TouchableOpacity} from 'react-native';
+import { List, ListItem,Header,SearchBar,Divider,Text,Card,Button } from 'react-native-elements'
+import moment from 'moment';
 // import BottomNavigation, {
 //   IconTab,
 //   Badge,
@@ -15,7 +16,10 @@ export default class InicioScreen extends Component {
     global.nombre = '';
     global.apellido = '';
     global.token = '';
-    global.doctor= 'http://www.doctorlopezcapape.com/site/imgs/doctor-david-lopez-capape-retrato.png';
+    global.id_socket = '',
+    global.id_doctor = '',
+    global.id_asesoria = '',
+    global.doctor= 'https://image.freepik.com/foto-gratis/sonriente-medico-mujer-hospital_23-2147767604.jpg';
   }
   state = {
     search: '',
@@ -24,10 +28,12 @@ export default class InicioScreen extends Component {
     retoken:'',
     password:'',
     nombre:'',
+    modalVisible: false,
     apellido:'',
   };
 
   save_movil = () => {
+    console.log(moment())
     console.log('id_movil: '+global.movil)
     console.log('id_persona: '+global.token)
     fetch('https://meditel-testing.herokuapp.com/api/firebase/store', {
@@ -49,7 +55,9 @@ export default class InicioScreen extends Component {
         console.log('no se almaceno el id del dispositivo')
   });
   };
-
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
   Token = () => {
     if (this.state.token == ''){
       fetch('https://meditel-testing.herokuapp.com/api/auth/login/', {
@@ -82,6 +90,7 @@ export default class InicioScreen extends Component {
   componentDidMount(){
     this.setState({email:(this.props.navigation.state.params || {}).email})
     this.setState({password:(this.props.navigation.state.params || {}).password})
+    this.setState({modalVisible:global.agendada.modal})
   }
   componentDidUpdate(){
     this.Token()
@@ -96,8 +105,20 @@ export default class InicioScreen extends Component {
   onPressEspecialidades(){
     alert('Especialidades')
   }
+  onPressVerAsesoria(){
+    () => this.props.navigation.navigate('chat')
+}
   render() {
     const { search } = this.state;
+
+    if (global.agendada.hasOwnProperty('id_socket')) { 
+      global.id_socket = global.agendada.id_socket
+      global.id_doctor = global.agendada.id_doctor
+      global.id_asesoria = global.agendada.id_asesoria
+    } else { 
+        console.log('nada nuevo') 
+    } 
+  
     return (
       <View style={styles.container}>
         
@@ -113,7 +134,48 @@ export default class InicioScreen extends Component {
           style={styles.search}
         />
         </View>
+        <Modal transparent={true}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+          }}>
+          <View style={{
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center'}}>
+            <View>
+            <Card title="Tu asesoria esta por comenzar">
+                <Text style={styles.paragraph}>
+                ¿Estas listo?
+                </Text>
+            </Card>
+
+                  <View style={{
+                                flexDirection: 'row',
+                                alignContent:'space-between'}}>
+                  <View style={styles.loginContainer}>
+                  <Button
+                      title="Empezar"
+                      type="outline"
+                      onPress={() => this.props.navigation.navigate('chat')}
+                      />
+                  </View>
+                  <View style={styles.loginContainer}>
+                  <Button
+                      title="Posponer"
+                      titleStyle={{color:'red'}}
+                      type="outline"
+                      onPress={() => { this.setModalVisible(false);}}   
+                    />
+                  </View>
+                  </View>
+            </View>
+          </View>
+        </Modal>
+        
         <View style={{flexDirection: 'row', justifyContent: 'space-evenly', padding:10}}>
+        
           <View >
           <TouchableOpacity onPress={()=>{this.props.navigation.navigate('inmediata', {
                     email: this.state.email,
@@ -185,6 +247,31 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     paddingLeft: 15    
+  },
+  loginContainer: {
+    flexDirection:'row',
+    marginLeft: 32,
+    paddingTop:20,
+    alignContent:"space-between",
+    marginBottom:15,
+    height: 35,
+    alignItems: "stretch",
+  },
+  modalContent: {
+    height: 100,
+    backgroundColor: "white",
+    padding: 22,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 4,
+    borderColor: "rgba(0, 0, 0, 0.1)"
+  },
+  paragraph: {
+    margin: 10,
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#34495e',
   },
   imageFilter:{
     width: 160.49, 

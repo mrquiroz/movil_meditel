@@ -10,8 +10,12 @@ import {registerGlobals} from 'react-native-webrtc'
 import messaging from '@react-native-firebase/messaging';
 import PushNotification from "react-native-push-notification";
 
+
+global.agendada = {modal:false}
+console.disableYellowBox=true;
 messaging().setBackgroundMessageHandler( async (payload) => {
     console.log(payload)
+    
     switch (payload.data.type) {
         case 'agendada:recordatorio':
             PushNotification.localNotification({
@@ -25,7 +29,8 @@ messaging().setBackgroundMessageHandler( async (payload) => {
             global.agendada = {
                 id_socket: payload.data.id_socket,
                 id_asesoria: payload.data.id_asesoria,
-                id_doctor: payload.data.id_doctor
+                id_doctor: payload.data.id_doctor,
+                modal:true
             };
             PushNotification.cancelAllLocalNotifications();
             // PushNotification.cancelLocalNotifications({id: '33'}),

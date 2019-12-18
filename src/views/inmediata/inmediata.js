@@ -6,6 +6,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 // import TouchableScale from 'react-native-touchable-scale';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {ClassicHeader,ModernHeader}  from '@freakycoder/react-native-header-view';
+console.disableYellowBox=true;
 
 
 //TODO: Cuando se haga el fetch desde el back se debe rescatar la asesoria_id del respectivo médico
@@ -26,8 +27,10 @@ export default class Inmediata extends Component {
     super(props);
     global.socket_id = '';
     global.room = '';
+    global.id_asesoria = '';
     this.messageHandler = this.messageHandler.bind(this);
   }
+  
     state = {
         search: '',
         token:'',
@@ -96,7 +99,7 @@ export default class Inmediata extends Component {
       const {type, data} = message;
       switch (type) {
           case 'asesoria:accept':
-
+              global.id_asesoria= data.id_asesoria
               global.socket_id = data.from_socket
               this.props.navigation.navigate("chat");
 

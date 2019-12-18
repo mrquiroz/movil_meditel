@@ -111,8 +111,11 @@ export default class Seleccionar extends Component {
     fecha = (horario,fecha) =>{
       if(fecha in horario ){
         global.selected_date = fecha;
-        var time1 = horario[fecha].inicio.split('.')[0];
-        var time2 = horario[fecha].fin.split('.')[0];
+        console.log('aquii')
+        console.log(horario)
+        var time1 = horario[fecha].inicio.split('-')[0];
+        var time2 = horario[fecha].fin.split('-')[0];
+        console.log(time2)
         let fecha1 = moment(time1,'HH:mm:ss')
         var fecha2 = moment(time2,'HH:mm:ss')
         var Horario = new Array();
@@ -204,15 +207,21 @@ export default class Seleccionar extends Component {
       const data = this.state.data;
       const ocupados = this.state.ocupados;
       let iterador;
-      let iter_oc;
+      let iter_oc;    
       if (this.state.ready) {
         iterador = data
         iter_oc = ocupados
     } else {
-        iterador = [{startDate:'',endDate:''}]
+        iterador = [{startDate:'-',endDate:'-'}]
         iter_oc = [{fecha:''}]
     }
-    const cosa = Object.values(iterador).map(value => ({[value.startDate.split('T')[0]]: {disabled: false}}))
+
+    const cosa1 = Object.values(iterador).map(value => ({"startDate":moment(value.startDate).utcOffset('-03:00').format(),
+                                                        "endDate":moment(value.endDate).utcOffset('-03:00').format()
+  }))
+  console.log(cosa1)
+    iterador = cosa1
+    const cosa = Object.values(cosa1).map(value => ({[value.startDate.split('T')[0]]: {disabled: false}}))
     const test1 = Object.values(iterador).map(value => ({[value.startDate.split('T')[0]]: {'inicio':value.startDate.split('T')[1],'fin':value.endDate.split('T')[1]}}))
     //console.log(iterador[0])
     const test_oc = Object.values(iter_oc).map(value => ({[value.fecha.split(' ')[0].split('T')[0]]: value.fecha.split(' ')[1]}))
